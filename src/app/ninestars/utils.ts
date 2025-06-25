@@ -3,7 +3,6 @@
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import util from 'util';
 import * as Astronomy from 'astronomy-engine';
 
 dayjs.extend(utc);
@@ -117,7 +116,6 @@ export function getNineStars(center: number): string[] {
  * 1) 获取当年的 12 个「節」作月界
  *    oddOrders = 1,3,5,7,9,11,13,15,17,19,21,23
  * -------------------------------------------------- */
-const JIE_ORDERS = [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23] as const;
 /** 24 节气平均日 (UTC)－再减 5 天作安全裕量 */
 const TERM_SEEDS: [m: number, d: number][] = [
     [11, 16], [0, 0], [0, 13], [0, 29], [1, 14], [2, 0],
@@ -180,13 +178,14 @@ function nearestJiaZi(target: dayjs.Dayjs): dayjs.Dayjs {
     throw new Error('No Jia-Zi found within ±14 days — input out of range?');
 }
 
+
 /**
  * Return winter (Dec) or summer (Jun) solstice **local date** for the supplied
  * year. Versions 2.x and 3.x of astronomy-engine expose different property
  * names; we therefore probe a small whitelist.
  */
 function solstice(year: number, type: 'winter' | 'summer'): dayjs.Dayjs {
-    const seasons: any = Astronomy.Seasons(year);
+    const seasons = Astronomy.Seasons(year) as unknown as Record<string, Astronomy.AstroTime>;
   
     const altKeys = type === 'winter'
       ? ['DecSol', 'dec_solstice', 'DecSolstice', 'decSolstice']
@@ -198,6 +197,9 @@ function solstice(year: number, type: 'winter' | 'summer'): dayjs.Dayjs {
     }
   
     const astroTime = seasons[key];
+    if (!astroTime) {
+      throw new Error(`Solstice data not found for ${type} ${year}`);
+    }
     return dayjs(astroTime.date).tz('Asia/Taipei').startOf('day');
 }
 

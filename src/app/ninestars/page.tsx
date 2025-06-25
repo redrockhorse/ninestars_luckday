@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import ConcentricCircles from './ConcentricCircles';
 import Compass from './Compass';
-import { calculateNewRing, getNineStars, getNineKi } from './utils';
+import { getNineStars, getNineKi } from './utils';
 
 export default function NinestarsPage() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -28,11 +28,11 @@ export default function NinestarsPage() {
   const circleTexts = {
     outer_texts: [
       // Innermost of the three outer rings (Day) - 日盘
-      getNineStars(res.dayStar),
+      dayStars,
       // Middle of the three outer rings (Month) - 月盘
-      getNineStars(res.monthStar),
+      monthStars,
       // Outermost ring (Year) - 年盘
-      getNineStars(res.yearStar),
+      yearStars,
     ],
   };
 

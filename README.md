@@ -6,6 +6,10 @@ This is a [Next.js](https://nextjs.org) project that implements the Japanese Nin
 
 Nine Stars Ki-gaku is a traditional Japanese divination system based on the nine stars (九星) that correspond to the nine numbers in the Lo Shu magic square. This system is used to calculate personal and family star charts based on birth dates and is widely practiced in Japan for guidance in life decisions, relationships, and timing.
 
+## Demo
+
+🌐 **Live Demo**: [https://ninestarsluckday-7szjobidt-mahone-alexs-projects.vercel.app/ninestars](https://ninestarsluckday-7szjobidt-mahone-alexs-projects.vercel.app/ninestars)
+
 ## Getting Started
 
 First, run the development server:
