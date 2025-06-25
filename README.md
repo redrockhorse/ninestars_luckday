@@ -1,4 +1,10 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 九星気学 (Nine Stars Ki-gaku) Calculator
+
+This is a [Next.js](https://nextjs.org) project that implements the Japanese Nine Stars Ki-gaku (九星気学) year/month/day family star chart calculator.
+
+## About Nine Stars Ki-gaku
+
+Nine Stars Ki-gaku is a traditional Japanese divination system based on the nine stars (九星) that correspond to the nine numbers in the Lo Shu magic square. This system is used to calculate personal and family star charts based on birth dates and is widely practiced in Japan for guidance in life decisions, relationships, and timing.
 
 ## Getting Started
 
@@ -14,11 +20,16 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000/ninestars](http://localhost:3000/ninestars) with your browser to access the Nine Stars Ki-gaku calculator.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+You can start editing the page by modifying `src/app/ninestars/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Features
+
+- Calculate personal Nine Stars based on birth date
+- Generate family star charts
+- Interactive compass and concentric circles visualization
+- Traditional Japanese divination calculations
 
 ## Learn More
 
@@ -34,3 +45,11 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
