@@ -1,0 +1,42 @@
+{
+  "name": "ninestars_luckday",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "test:run": "vitest run"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^6.0.0",
+    "@marchingy/lunar": "^0.1.1",
+    "antd": "^5.26.1",
+    "astronomy-engine": "^2.1.19",
+    "dayjs": "^1.11.13",
+    "next": "15.3.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.4",
+    "jest": "^30.0.3",
+    "tailwindcss": "^4",
+    "ts-jest": "^29.4.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5",
+    "vitest": "^3.2.4"
+  }
+}
