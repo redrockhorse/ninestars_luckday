@@ -264,3 +264,110 @@ export function getNineKi(input: Date | string): StarResult {
 
     return { yearStar, monthStar: monthStarOriginal, dayStar };
 } 
+const starToXing = {
+    '一': '水',
+    '二': '土',
+    '三': '木',
+    '四': '木',
+    '五': '土',
+    '六': '金',
+    '七': '金',
+    '八': '土',
+    '九': '火',
+  };
+
+// 五行生克关系定义
+const wuxingRelations = {
+  '木': { generates: '火', restrains: '土' },
+  '火': { generates: '土', restrains: '金' },
+  '土': { generates: '金', restrains: '水' },
+  '金': { generates: '水', restrains: '木' },
+  '水': { generates: '木', restrains: '火' },
+};
+
+/**
+ * 判断两个五行元素的关系
+ * @param xing1 第一个五行元素
+ * @param xing2 第二个五行元素
+ * @returns 'generates' | 'restrains' | 'generated_by' | 'restrained_by' | 'same' 表示生、克、被生、被克、相同
+ */
+function getWuxingRelation(xing1: string, xing2: string): 'generates' | 'restrains' | 'generated_by' | 'restrained_by' | 'same' {
+  if (xing1 === xing2) return 'same';
+  
+  const relation = wuxingRelations[xing1 as keyof typeof wuxingRelations];
+  if (!relation) return 'restrains'; // 如果找不到关系，默认为相克
+  
+  if (relation.generates === xing2) return 'generates';
+  if (relation.restrains === xing2) return 'restrains';
+  
+  // 如果xing1对xing2没有直接关系，检查xing2对xing1的关系
+  const reverseRelation = wuxingRelations[xing2 as keyof typeof wuxingRelations];
+  if (reverseRelation) {
+    if (reverseRelation.generates === xing1) return 'generated_by'; // xing2生xing1，所以xing1被xing2生
+    if (reverseRelation.restrains === xing1) return 'restrained_by'; // xing2克xing1，所以xing1被xing2克
+  }
+  
+  return 'restrains'; // 默认相克
+}
+
+/**
+ * 判断日、月、年九星在各宫位的相同情况
+ * @param dayStars - 日盘九星
+ * @param monthStars - 月盘九星
+ * @param yearStars - 年盘九星
+ * @returns 长度为9的数组，每个元素为"三个一样"、"有两个一样"、"全都不一样"
+ */
+export function compareStars(
+    dayStars: string[],
+    monthStars: string[],
+    yearStars: string[]
+  ): string[] {
+    return dayStars.map((d, i) => {
+      const dayXing = starToXing[d as keyof typeof starToXing] || '';
+      const monthXing = starToXing[monthStars[i] as keyof typeof starToXing] || '';
+      const yearXing = starToXing[yearStars[i] as keyof typeof starToXing] || '';
+      
+      if (dayXing === monthXing && monthXing === yearXing) {
+        return `(${dayXing})`;
+      } else if (dayXing === monthXing || dayXing === yearXing || monthXing === yearXing) {
+        // 有两个一样的情况，需要判断生克关系
+        let sameElements: string[] = [];
+        let differentElement = '';
+        
+        if (dayXing === monthXing) {
+          sameElements = [dayXing, monthXing];
+          differentElement = yearXing;
+        } else if (dayXing === yearXing) {
+          sameElements = [dayXing, yearXing];
+          differentElement = monthXing;
+        } else if (monthXing === yearXing) {
+          sameElements = [monthXing, yearXing];
+          differentElement = dayXing;
+        }
+        
+        if (sameElements.length > 0 && differentElement) {
+          const sameElement = sameElements[0];
+          console.log(sameElement, differentElement)
+          const relation = getWuxingRelation(sameElement, differentElement);
+          
+          if (relation === 'generates') {
+            // 相同元素生不同元素，返回被生的元素（不同元素）
+            return differentElement;
+          } else if (relation === 'generated_by') {
+            // 相同元素被不同元素生，返回被生的元素（相同元素）
+            return sameElement;
+          } else if (relation === 'restrains' || relation === 'restrained_by') {
+            // 相克关系（无论谁克谁），返回'X'
+            return 'X';
+          } else {
+            // 相同元素，返回'有两个一样'
+            return '有两个一样';
+          }
+        }
+        
+        return '有两个一样';
+      } else {
+        return 'O';
+      }
+    });
+  }

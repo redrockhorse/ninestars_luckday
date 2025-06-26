@@ -6,7 +6,8 @@ import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 import ConcentricCircles from './ConcentricCircles';
 import Compass from './Compass';
-import { getNineStars, getNineKi } from './utils';
+import CompareResultCircle from './CompareResultCircle';
+import { getNineStars, getNineKi, compareStars } from './utils';
 
 export default function NinestarsPage() {
   const [selectedDate, setSelectedDate] = useState(dayjs());
@@ -22,7 +23,9 @@ export default function NinestarsPage() {
   console.log(getNineStars(res.dayStar))
   const yearStars = getNineStars(res.yearStar)
   const monthStars = getNineStars(res.monthStar)
-  const dayStars = getNineStars(res.monthStar)
+  const dayStars = getNineStars(res.dayStar)
+  const compareResults = compareStars(yearStars, monthStars, dayStars)
+  console.log(compareResults)
 
   // 根据用户选择的日期动态计算九星排列
   const circleTexts = {
@@ -87,14 +90,24 @@ export default function NinestarsPage() {
             </div>
 
             <div className="flex flex-col items-center">
-              <div className="relative flex items-center justify-center" style={{ width: 600, height: 600 }}>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <Compass size={580} />
+              <div className="flex items-center justify-center space-x-12">
+                {/* 主要的九星圆 */}
+                <div className="relative flex items-center justify-center" style={{ width: 600, height: 600 }}>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Compass size={580} />
+                  </div>
+                  <ConcentricCircles
+                    size={500}
+                    texts={circleTexts}
+                    colors={{ outer_texts: ringColors }}
+                  />
                 </div>
-                <ConcentricCircles
-                  size={500}
-                  texts={circleTexts}
-                  colors={{ outer_texts: ringColors }}
+
+                {/* 比较结果圆 */}
+                <CompareResultCircle
+                  size={300}
+                  results={compareResults}
+                  title="九星生克结果"
                 />
               </div>
 
